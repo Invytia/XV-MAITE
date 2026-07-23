@@ -55,7 +55,7 @@
             100% { transform: translateY(50px) scale(1.1); }
         }
 
-        /* ====== SOBRE EDITORIAL (NUEVO SELLO) ====== */
+        /* ====== SOBRE EDITORIAL ====== */
         #envelope-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #f2d5d8 0%, #fffaf2 100%);
@@ -65,7 +65,7 @@
         #envelope-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
         .env-star { position: absolute; border-radius: 50%; background: #fff; box-shadow: 0 0 10px #fff; animation: envTwinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s); }
-        @keyframes envTwinkle { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.4); } }
+        @keyframes envTwinkle { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.5); } }
 
         .envelope-wrapper { position: relative; cursor: pointer; z-index: 10; display: flex; flex-direction: column; align-items: center; width: 330px; transition: transform 0.4s ease; }
         .envelope-wrapper:hover { transform: translateY(-8px) scale(1.02); }
@@ -85,9 +85,6 @@
         .letter-peek-name { font-family: 'Pinyon Script', cursive; font-size: 42px; color: var(--text-rose); line-height: 1; }
         .letter-peek-date { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 5px; color: var(--oro-oscuro); margin-top: 6px; text-transform: uppercase; font-weight: 700; }
 
-        /* NUEVO SELLO MONOGRAMA */
-        .wax-seal { position: absolute; top: 145px; left: 50%; transform: translateX(-50%); width: 85px; height: 85px; z-index: 20; transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s, opacity 0.4s ease 0.15s; }
-        .envelope-wrapper.open .wax-seal { transform: translateX(-50%) scale(0) rotate(45deg); opacity: 0; }
         .hint-text { margin-top: 40px; text-align: center; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 6px; color: var(--text-rose); animation: pulse 2.5s infinite; text-transform: uppercase; font-weight: 700; }
 
         /* ====== MAIN ====== */
@@ -171,14 +168,13 @@
         .cal-day.empty { opacity: 0; }
         .cal-day.highlight { background: var(--text-rose); color: #fff; font-weight: 700; box-shadow: 0 8px 20px rgba(165,97,110,0.4); transform: scale(1.1); }
 
-        /* Ajustes precisos para celulares pequeños */
         @media(max-width: 400px) {
             .calendar-body { padding: 15px 5px; }
             .cal-day { width: 28px; height: 28px; font-size: 17px; }
             .calendar-day-name { font-size: 9px; letter-spacing: 0px; }
         }
 
-        /* ====== UBICACIONES (SUPERPUESTAS LINDAS) ====== */
+        /* ====== UBICACIONES ====== */
         .ubi-card { position: relative; margin-bottom: 60px; border-radius: 18px; overflow: hidden; background: transparent; }
         .ubi-map-container { width: 100%; height: 300px; border-radius: 18px; overflow: hidden; border: 2px solid var(--rosa-palo-oscuro); box-shadow: 0 15px 35px rgba(165,97,110,0.2); }
         .ubi-map-container iframe { width: 100%; height: 100%; border: none; }
@@ -194,12 +190,42 @@
         .ubi-lugar { font-family: 'Bodoni Moda', serif; font-size: 34px; font-style: italic; color: var(--text-rose); margin-bottom: 8px; font-weight: 600; }
         .ubi-direccion { font-family: 'Montserrat', sans-serif; font-size: 15px; color: var(--text-deep); margin-bottom: 25px; line-height: 1.6; font-weight: 500; }
 
-        /* ====== ITINERARIO PREMIUM (LÍNEA VERTICAL) ====== */
-        .itin-container { position: relative; margin: 40px auto; padding-left: 35px; border-left: 2px solid rgba(212,175,55,0.4); text-align: left; max-width: 350px; }
-        .itin-item { position: relative; margin-bottom: 45px; padding-left: 15px; }
-        .itin-dot { position: absolute; left: -45px; top: 4px; width: 22px; height: 22px; background: #fff; border: 4px solid var(--oro); border-radius: 50%; box-shadow: 0 0 12px rgba(212,175,55,0.5); }
-        .itin-time { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: var(--oro-oscuro); letter-spacing: 3px; margin-bottom: 6px; }
-        .itin-title { font-family: 'Bodoni Moda', serif; font-size: 32px; font-style: italic; color: var(--text-rose); font-weight: 600; line-height: 1.1; }
+        /* ====== ITINERARIO EDITORIAL CENTRADO ====== */
+        .itin-container { 
+            position: relative; margin: 50px auto 30px auto; padding: 0; 
+            display: flex; flex-direction: column; align-items: center; max-width: 400px;
+        }
+        .itin-container::before { 
+            content: ''; position: absolute; top: 0; bottom: 0; left: 50%; 
+            width: 2px; background: linear-gradient(180deg, transparent, var(--oro), transparent); 
+            transform: translateX(-50%); opacity: 0.6; z-index: 0;
+        }
+        .itin-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            position: relative; margin-bottom: 45px; width: 100%; z-index: 2; 
+        }
+        .itin-dot { 
+            width: 22px; height: 22px; background: #fff; border: 4px solid var(--oro); 
+            border-radius: 50%; box-shadow: 0 0 15px rgba(212,175,55,0.7); 
+            margin-bottom: 15px; transition: transform 0.3s ease;
+        }
+        .itin-card { 
+            background: var(--bg-glass-heavy); border: 1px solid #fff; 
+            padding: 20px 40px; border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(165,97,110,0.15); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            min-width: 240px; text-align: center; transition: transform 0.4s ease; 
+        }
+        .itin-item:hover .itin-card { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(165,97,110,0.25); }
+        .itin-item:hover .itin-dot { transform: scale(1.2); }
+        .itin-time { 
+            font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; 
+            color: var(--oro-oscuro); letter-spacing: 4px; margin-bottom: 5px; 
+        }
+        .itin-title { 
+            font-family: 'Bodoni Moda', serif; font-size: 34px; font-style: italic; 
+            color: var(--text-rose); font-weight: 600; line-height: 1.1; margin: 0; 
+        }
 
         /* ====== BOTONES Y FORMULARIOS ====== */
         .btn-accion {
@@ -298,16 +324,6 @@
                 </svg>
                 <div class="env-name-label">Maite</div>
                 <div class="env-date-label">Mis XV Años</div>
-                
-                <!-- SELLO MONOGRAMA ELEGANTE -->
-                <div class="wax-seal">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="46" fill="url(#goldGrad2)" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.3))"/>
-                        <circle cx="50" cy="50" r="42" fill="#fffaf2"/>
-                        <circle cx="50" cy="50" r="37" stroke="url(#goldGrad2)" stroke-width="1.5" stroke-dasharray="3 3"/>
-                        <text x="50" y="67" font-family="'Pinyon Script', cursive" font-size="52" fill="#a5616e" text-anchor="middle">M</text>
-                    </svg>
-                </div>
             </div>
         </div>
         <div class="hint-text">Toca para abrir</div>
@@ -420,29 +436,37 @@
                 <img src="assets/foto3.jpg" alt="Foto Maite 3" class="img-seccion" onclick="openLightbox(this.src)">
             </div>
 
-            <!-- SECCIÓN ITINERARIO EDITORIAL -->
+            <!-- SECCIÓN ITINERARIO EDITORIAL (CENTRADO) -->
             <div class="bloque-seccion bloque-claro anim-element anim-fade-up">
                 <div class="section-heading">Itinerario</div>
                 <div class="itin-container">
-                    <div class="itin-item anim-element anim-fade-right">
+                    <div class="itin-item anim-element anim-fade-up">
                         <div class="itin-dot"></div>
-                        <div class="itin-time">4:00 PM</div>
-                        <div class="itin-title">Misa</div>
+                        <div class="itin-card">
+                            <div class="itin-time">4:00 PM</div>
+                            <div class="itin-title">Misa</div>
+                        </div>
                     </div>
-                    <div class="itin-item anim-element anim-fade-right" style="transition-delay: 0.1s;">
+                    <div class="itin-item anim-element anim-fade-up" style="transition-delay: 0.15s;">
                         <div class="itin-dot"></div>
-                        <div class="itin-time">6:00 PM</div>
-                        <div class="itin-title">Recepción</div>
+                        <div class="itin-card">
+                            <div class="itin-time">6:00 PM</div>
+                            <div class="itin-title">Recepción</div>
+                        </div>
                     </div>
-                    <div class="itin-item anim-element anim-fade-right" style="transition-delay: 0.2s;">
+                    <div class="itin-item anim-element anim-fade-up" style="transition-delay: 0.3s;">
                         <div class="itin-dot"></div>
-                        <div class="itin-time">7:00 PM</div>
-                        <div class="itin-title">Cena</div>
+                        <div class="itin-card">
+                            <div class="itin-time">7:00 PM</div>
+                            <div class="itin-title">Cena</div>
+                        </div>
                     </div>
-                    <div class="itin-item anim-element anim-fade-right" style="transition-delay: 0.3s;">
+                    <div class="itin-item anim-element anim-fade-up" style="transition-delay: 0.45s;">
                         <div class="itin-dot"></div>
-                        <div class="itin-time">8:00 PM</div>
-                        <div class="itin-title">Baile</div>
+                        <div class="itin-card">
+                            <div class="itin-time">8:00 PM</div>
+                            <div class="itin-title">Baile</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -547,11 +571,11 @@
             const c = document.getElementById('env-stars');
             if (!c) return;
             c.style.cssText = 'position:absolute;inset:0;overflow:hidden;';
-            for (let i = 0; i < 45; i++) {
+            for (let i = 0; i < 60; i++) {
                 const s = document.createElement('div');
                 s.className = 'env-star';
-                const size = Math.random() * 3 + 1.5;
-                s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;--delay:-${(Math.random()*4).toFixed(1)}s;`;
+                const size = Math.random() * 3.5 + 1.5;
+                s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*2+1).toFixed(1)}s;--delay:-${(Math.random()*4).toFixed(1)}s;`;
                 c.appendChild(s);
             }
         })();
@@ -622,7 +646,6 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // Un ligero retraso permite que la clase se aplique fluidamente
                         setTimeout(() => {
                             entry.target.classList.add('is-visible');
                         }, 50);
@@ -687,7 +710,7 @@
             document.getElementById('wish-form').reset();
         }
 
-        // --- EFECTO BRILLOS (GLITTER CANVAS) ---
+        // --- EFECTO BRILLOS POTENCIADOS (GLITTER CANVAS) ---
         const canvas = document.getElementById('glitter-canvas');
         const ctx = canvas.getContext('2d');
         let glitterParticles = [];
@@ -699,26 +722,26 @@
         function makeParticle(x, y, burst){
             return {
                 x, y,
-                vx: (Math.random() - 0.5) * (burst ? 4 : 1),
-                vy: -Math.random() * (burst ? 4 : 1) - (burst ? 1 : 0.5),
-                size: Math.random() * (burst ? 4 : 3) + 1.5,
-                life: burst ? 1 : Math.random() * 0.5 + 0.5,
-                decay: Math.random() * (burst ? 0.015 : 0.005) + 0.005,
+                vx: (Math.random() - 0.5) * (burst ? 5 : 1.5),
+                vy: burst ? (-Math.random() * 5 - 1.5) : (-Math.random() * 2 - 0.5), // Flotan hacia arriba más naturalmente
+                size: Math.random() * (burst ? 4.5 : 3.5) + 1.5,
+                life: burst ? 1 : Math.random() * 0.6 + 0.4,
+                decay: Math.random() * (burst ? 0.015 : 0.004) + 0.005,
                 rotation: Math.random() * Math.PI * 2,
-                rotSpeed: (Math.random() - 0.5) * 0.2,
-                color: Math.random() > 0.6 ? '212,175,55' : (Math.random() > 0.5 ? '220,163,170' : '255,255,255')
+                rotSpeed: (Math.random() - 0.5) * 0.25,
+                color: Math.random() > 0.5 ? '212,175,55' : (Math.random() > 0.5 ? '220,163,170' : '255,255,255')
             };
         }
 
         function createGlitterBurst(x, y){ 
-            for(let i=0; i<25; i++) glitterParticles.push(makeParticle(x, y, true)); 
+            for(let i=0; i<35; i++) glitterParticles.push(makeParticle(x, y, true)); 
         }
 
         function spawnAmbient(){
             if(!document.body.classList.contains('content-active')) return;
             const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight * 0.9 + window.scrollY;
-            for(let i=0; i<3; i++) glitterParticles.push(makeParticle(x + (Math.random()-0.5)*100, y + (Math.random()-0.5)*100, false));
+            const y = Math.random() * window.innerHeight * 1.2 + window.scrollY; // Nacen un poco más abajo para subir
+            for(let i=0; i<5; i++) glitterParticles.push(makeParticle(x + (Math.random()-0.5)*150, y + (Math.random()-0.5)*150, false));
         }
 
         function drawGlitter(){
@@ -729,7 +752,7 @@
                 ctx.save();
                 ctx.translate(p.x, p.y - window.scrollY);
                 ctx.rotate(p.rotation);
-                ctx.globalAlpha = Math.min(p.life, 0.9);
+                ctx.globalAlpha = Math.min(p.life, 0.95);
                 
                 const s = p.size;
                 ctx.beginPath();
@@ -755,7 +778,7 @@
         function startGlitter(){ 
             canvas.classList.add('visible'); 
             drawGlitter(); 
-            setInterval(spawnAmbient, 300); 
+            setInterval(spawnAmbient, 120); // Mayor frecuencia de brillos
         }
         
         // Destellos extra al hacer click/tap
