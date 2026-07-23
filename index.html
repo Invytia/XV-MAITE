@@ -243,6 +243,16 @@
         .rsvp-input-label { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 3px; color: var(--text-deep); text-transform: uppercase; display: block; margin-bottom: 10px; font-weight: 700; }
         .rsvp-input { width: 100%; padding: 20px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--text-deep); background: #fff; border: 2px solid var(--rosa-palo-oscuro); border-radius: 10px; outline: none; transition: all 0.3s; }
         .rsvp-input:focus { border-color: var(--text-rose); box-shadow: 0 0 15px rgba(165,97,110,0.2); }
+        
+        select.rsvp-input {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a5616e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
+            cursor: pointer;
+        }
 
         /* ====== CANVAS GLITTER (BRILLOS) ====== */
         #glitter-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 998; opacity: 0; transition: opacity 1s; }
@@ -526,7 +536,16 @@
                     <label class="rsvp-input-label">Tu Nombre Completo</label>
                     <input type="text" id="guest-name" class="rsvp-input" placeholder="Ej. Familia Rodríguez">
                 </div>
+                
                 <div class="rsvp-input-wrap">
+                    <label class="rsvp-input-label">¿Asistirás al evento?</label>
+                    <select id="guest-attendance" class="rsvp-input" onchange="togglePasses()">
+                        <option value="Sí, asistiré">Sí, asistiré</option>
+                        <option value="No podré asistir">No podré asistir</option>
+                    </select>
+                </div>
+
+                <div class="rsvp-input-wrap" id="passes-wrap">
                     <label class="rsvp-input-label">Número de personas a asistir</label>
                     <input type="number" id="guest-passes" class="rsvp-input" min="1" max="10" placeholder="Ej. 2">
                 </div>
@@ -686,16 +705,39 @@
             document.body.appendChild(a);a.click();document.body.removeChild(a);
         }
 
+        // --- LÓGICA DE ASISTENCIA ---
+        function togglePasses() {
+            const att = document.getElementById('guest-attendance').value;
+            const passesWrap = document.getElementById('passes-wrap');
+            if(att === 'No podré asistir') {
+                passesWrap.style.display = 'none';
+            } else {
+                passesWrap.style.display = 'block';
+            }
+        }
+
         // --- ENVÍO DE CONFIRMACIÓN A WHATSAPP ---
         function sendConfirmationViaWhatsApp() {
             const name = document.getElementById('guest-name').value;
+            const att = document.getElementById('guest-attendance').value;
             const passes = document.getElementById('guest-passes').value;
             
-            if(!name.trim() || !passes.trim()) {
-                alert('Por favor, ingresa tu nombre y la cantidad de pases a confirmar.');
+            if(!name.trim()) {
+                alert('Por favor, ingresa tu nombre completo para confirmar.');
                 return;
             }
-            const msg = `¡Hola! Confirmo mi asistencia a los XV Años de Maite.\n\n• Nombre: ${name.trim()}\n• Personas confirmadas: ${passes.trim()}`;
+
+            let msg = '';
+            if (att === 'Sí, asistiré') {
+                if(!passes.trim() || passes < 1) {
+                    alert('Por favor, ingresa el número de personas a asistir.');
+                    return;
+                }
+                msg = `¡Hola! Confirmo mi asistencia a los XV Años de Maite.\n\n• Nombre: ${name.trim()}\n• Asistencia: ${att}\n• Personas confirmadas: ${passes.trim()}`;
+            } else {
+                msg = `¡Hola! Muchas gracias por la invitación a los XV Años de Maite, pero en esta ocasión ${att}.\n\n• Nombre: ${name.trim()}`;
+            }
+            
             window.open(`https://wa.me/528341316475?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
@@ -723,7 +765,7 @@
             return {
                 x, y,
                 vx: (Math.random() - 0.5) * (burst ? 5 : 1.5),
-                vy: burst ? (-Math.random() * 5 - 1.5) : (-Math.random() * 2 - 0.5), // Flotan hacia arriba más naturalmente
+                vy: burst ? (-Math.random() * 5 - 1.5) : (-Math.random() * 2 - 0.5),
                 size: Math.random() * (burst ? 4.5 : 3.5) + 1.5,
                 life: burst ? 1 : Math.random() * 0.6 + 0.4,
                 decay: Math.random() * (burst ? 0.015 : 0.004) + 0.005,
@@ -740,7 +782,7 @@
         function spawnAmbient(){
             if(!document.body.classList.contains('content-active')) return;
             const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight * 1.2 + window.scrollY; // Nacen un poco más abajo para subir
+            const y = Math.random() * window.innerHeight * 1.2 + window.scrollY;
             for(let i=0; i<5; i++) glitterParticles.push(makeParticle(x + (Math.random()-0.5)*150, y + (Math.random()-0.5)*150, false));
         }
 
@@ -778,10 +820,9 @@
         function startGlitter(){ 
             canvas.classList.add('visible'); 
             drawGlitter(); 
-            setInterval(spawnAmbient, 120); // Mayor frecuencia de brillos
+            setInterval(spawnAmbient, 120); 
         }
         
-        // Destellos extra al hacer click/tap
         document.addEventListener('click', e => { 
             if(document.body.classList.contains('content-active')) createGlitterBurst(e.clientX, e.clientY); 
         });
